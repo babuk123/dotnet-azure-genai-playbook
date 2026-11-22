@@ -19,7 +19,7 @@ flowchart TB
 
 | Pattern | Problem it solves | In this demo |
 |--------|-------------------|--------------|
-| **Strategy** | Replace big if/switch blocks; Open/Closed principle | fee rules selected with .NET 8+ keyed services |
+| **Strategy** | Replace big if/switch blocks; Open/Closed principle | fee rules selected with .NET 8 keyed services |
 | **Decorator** | Add caching/logging/retries without editing the class | `CachedCustomerRepository` wraps the SQL repository |
 | **Mediator** | Keep controllers thin; one handler per request (CQRS style) | `SimpleMediator` resolves handlers from DI (MediatR-like) |
 | **Outbox** | Publish events reliably together with a DB change | order + event saved together, published once |

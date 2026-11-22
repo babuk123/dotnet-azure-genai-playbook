@@ -3,7 +3,7 @@
 ```bash
 # Option A: Dockerfile
 docker build -t container-demo:1.0.0 .
-# Option B: no Dockerfile (.NET SDK builds the image itself)
+# Option B: no Dockerfile (.NET 8 SDK builds the image itself)
 dotnet publish -c Release -t:PublishContainer
 
 # Run with limits and config from environment variables

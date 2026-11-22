@@ -1,4 +1,4 @@
-# 20 · Entity Framework Core 10
+# 20 · Entity Framework Core 8
 
 [`BankingDbContext.cs`](BankingDbContext.cs): entity configuration, money precision, optimistic concurrency (`RowVersion`), soft-delete filters, no-tracking projections, avoiding N+1, compiled queries, `ExecuteUpdate`, retry on transient faults, and migrations.
 Reference code: rename `EfCore.csproj.txt` to `EfCore.csproj` to restore the EF Core packages and build.

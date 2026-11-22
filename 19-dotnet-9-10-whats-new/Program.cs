@@ -1,5 +1,5 @@
 using Point = (int X, int Y);
-// C# 12 features (introduced with .NET 8). net10/ = C# 13/14 + .NET 9/10 (compiled here); net11/ = C# 15 + .NET 11.
+// C# 12 / .NET 8 features (runs on .NET 8). See net10/ for C# 13/14 and .NET 9/10.
 using System.Collections.Frozen;
 using System.Globalization;
 

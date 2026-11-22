@@ -10,11 +10,11 @@ flowchart LR
     end
     subgraph Transition["Strangler pattern"]
       C2["Clients"] --> GW["API gateway / router"]
-      GW -->|migrated ops| N["New REST/gRPC service<br/>.NET 10 · containers"]
+      GW -->|migrated ops| N["New REST/gRPC service<br/>.NET 8 · containers"]
       GW -->|not yet migrated| W2["Legacy WCF"]
     end
     subgraph After
-      C3["Clients (REST/JSON)"] --> N2[".NET 10 service on AKS/OpenShift"]
+      C3["Clients (REST/JSON)"] --> N2[".NET 8 service on AKS/OpenShift"]
     end
     Before --> Transition --> After
 ```
@@ -30,7 +30,7 @@ flowchart LR
 ## Advanced — modernization options
 | Option | When |
 |-------|------|
-| **CoreWCF** | Keep SOAP contracts, move to .NET 10 with minimal code change |
+| **CoreWCF** | Keep SOAP contracts, move to .NET 8 with minimal code change |
 | **gRPC** | Fast internal service-to-service calls, contract-first |
 | **REST/JSON** | Broad consumers, browsers, API gateway features (this sample) |
 

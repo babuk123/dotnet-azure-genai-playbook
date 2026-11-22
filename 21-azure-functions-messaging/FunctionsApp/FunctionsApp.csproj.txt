@@ -1,4 +1,4 @@
-<!-- Rename to FunctionsApp.csproj to build. Azure Functions isolated worker (.NET 10). -->
+<!-- Rename to FunctionsApp.csproj to build. Azure Functions isolated worker (.NET 8). -->
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>

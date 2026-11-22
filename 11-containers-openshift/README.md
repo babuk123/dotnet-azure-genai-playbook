@@ -31,10 +31,10 @@ flowchart LR
 
 | Image | Contains | Use for |
 |-------|----------|---------|
-| `mcr.microsoft.com/dotnet/sdk:10.0` | SDK, compilers, CLI | Build stage only |
-| `dotnet/aspnet:10.0` | ASP.NET Core + .NET runtime | Web APIs |
-| `dotnet/runtime:10.0` | .NET runtime | Console apps, workers |
-| `dotnet/runtime-deps:10.0` | OS libraries only | Self-contained / Native AOT apps |
+| `mcr.microsoft.com/dotnet/sdk:8.0` | SDK, compilers, CLI | Build stage only |
+| `dotnet/aspnet:8.0` | ASP.NET Core + .NET runtime | Web APIs |
+| `dotnet/runtime:8.0` | .NET runtime | Console apps, workers |
+| `dotnet/runtime-deps:8.0` | OS libraries only | Self-contained / Native AOT apps |
 | `*-chiseled` | Ubuntu without shell or package manager, non-root | Production: smaller and fewer CVEs |
 | `*-alpine` | Alpine Linux (musl) | Small images; test globalization |
 
@@ -44,10 +44,10 @@ Since .NET 8, images listen on **port 8080** by default (`ASPNETCORE_HTTP_PORTS`
 
 ```mermaid
 flowchart LR
-    subgraph Build["Stage 1: sdk:10.0"]
+    subgraph Build["Stage 1: sdk:8.0"]
       A["COPY *.csproj"] --> B["dotnet restore<br/>(cached layer)"] --> C["COPY source"] --> D["dotnet publish"]
     end
-    subgraph Final["Stage 2: aspnet:10.0-noble-chiseled"]
+    subgraph Final["Stage 2: aspnet:8.0-chiseled"]
       E["COPY --from=build /app"] --> F["USER app<br/>ENTRYPOINT dotnet App.dll"]
     end
     D --> E
@@ -101,7 +101,7 @@ sequenceDiagram
 
 - `Environment.ProcessorCount` and thread-pool sizing respect `--cpus` / CPU limits.
 - The GC heap limit defaults to **75% of the memory limit**; tune with `DOTNET_GCHeapHardLimitPercent`.
-- Server GC uses more memory; since .NET 9, **DATAS** (dynamic adaptation) is on by default with Server GC and shrinks the heap for small pods. On older versions use `DOTNET_gcServer=0` or `DOTNET_GCDynamicAdaptationMode=1`.
+- Server GC uses more memory; for small pods consider `DOTNET_gcServer=0`, or in .NET 8 opt in to DATAS (`DOTNET_GCDynamicAdaptationMode=1`), which adapts the heap to the load (on by default from .NET 9).
 - Out of memory: the container is **OOMKilled** (exit code 137). Set memory requests and limits and watch the restart count.
 
 ## 7. OpenShift specifics
