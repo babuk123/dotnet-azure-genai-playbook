@@ -3,7 +3,7 @@
     <!-- Build an OCI image with no Dockerfile: dotnet publish -t:PublishContainer -->
     <ContainerRepository>container-demo</ContainerRepository>
     <ContainerImageTag>1.0.0</ContainerImageTag>
-    <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:8.0-jammy-chiseled</ContainerBaseImage>
+    <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled</ContainerBaseImage>
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
   <ItemGroup>

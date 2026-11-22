@@ -28,4 +28,4 @@ flowchart LR
 ## Advanced
 - `IDisposable` + `using` release unmanaged resources **deterministically**; the GC only frees memory.
 - Diagnose memory/threads in production with `dotnet-counters`, `dotnet-gcdump` and `dotnet-trace`.
-- .NET Framework (Windows-only, maintenance) vs modern .NET 8/10 (cross-platform, faster, containers): new work targets .NET 8/10 LTS.
+- .NET Framework (Windows-only, maintenance) vs modern .NET 8/10 (cross-platform, faster, containers): new work targets .NET 10 LTS (.NET 8 and 9 reached end of support on Nov 10, 2026).

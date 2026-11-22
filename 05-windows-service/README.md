@@ -1,4 +1,4 @@
-# 05 · .NET 8 Windows Service (Worker Service)
+# 05 · .NET 10 Windows Service (Worker Service)
 
 - Develop: `dotnet run` (runs as a console app).
 - Install on Windows: [`install-service.ps1`](install-service.ps1) (publish, `sc.exe create`, restart-on-failure).
@@ -24,4 +24,4 @@ flowchart LR
 ## Advanced
 - Migrating from .NET Framework `ServiceBase`: move to SDK-style project + Worker Service, replace `app.config` with `appsettings.json`, re-test side by side.
 - Same worker code can run in a container on Linux/AKS (only `AddWindowsService` is Windows-specific; it is a no-op elsewhere).
-- WinForms/WPF also run on .NET 8 (Windows only) with DI and modern C#.
+- WinForms/WPF also run on .NET 10 (Windows only) with DI and modern C#.

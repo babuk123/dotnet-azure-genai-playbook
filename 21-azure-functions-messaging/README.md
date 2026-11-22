@@ -2,7 +2,7 @@
 
 | Path | What it shows |
 |------|---------------|
-| [`FunctionsApp/`](FunctionsApp) | Azure Functions **isolated worker** (.NET 8): HTTP → Service Bus output, Service Bus trigger with dead-lettering, Timer trigger. Rename `FunctionsApp.csproj.txt` to `.csproj` to build. |
+| [`FunctionsApp/`](FunctionsApp) | Azure Functions **isolated worker** (.NET 10): HTTP → Service Bus output, Service Bus trigger with dead-lettering, Timer trigger. Rename `FunctionsApp.csproj.txt` to `.csproj` to build. |
 | [`container-apps/main.bicep`](container-apps/main.bicep) | **Azure Container Apps** worker that scales **0 → 10** on queue length (KEDA) with managed identity |
 | [`data-factory/pl_copy_transactions.json`](data-factory/pl_copy_transactions.json) | **Data Factory** pipeline: DB2 → Azure SQL staging copy, stored procedure load, failure alert |
 
@@ -19,7 +19,7 @@ flowchart LR
 ```
 
 ## Basic
-- Functions: triggers (HTTP, Timer, Service Bus, Blob, Event Grid) and bindings; **isolated worker** model is the supported model for .NET 8+.
+- Functions: triggers (HTTP, Timer, Service Bus, Blob, Event Grid) and bindings; **isolated worker** model is the supported model for .NET 8 and later.
 - Hosting: Consumption / **Flex Consumption** (scale to zero), Premium (no cold start, VNet), Dedicated.
 - Service Bus: queues (one consumer) vs topics/subscriptions (fan-out), peek-lock, dead-letter queue.
 

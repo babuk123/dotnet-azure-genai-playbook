@@ -18,7 +18,7 @@ resource app 'Microsoft.Web/sites@2023-12-01' = {
     serverFarmId: plan.id
     httpsOnly: true
     siteConfig: {
-      linuxFxVersion: 'DOTNETCORE|8.0'
+      linuxFxVersion: 'DOTNETCORE|10.0'
       minTlsVersion: '1.2'
       appSettings: [
         { name: 'KeyVaultUri', value: kv.properties.vaultUri }

@@ -2,12 +2,12 @@
 
 Hands-on, runnable examples of the technologies I use as a **Senior Software Engineer (.NET full stack)**, from C# fundamentals to Azure Kubernetes Service, API Management and AI agents. Each folder pairs **working code** with a **diagram** and a short explanation that goes from basic to advanced.
 
-> 27 topics. Built with .NET 8 (LTS), with .NET 9/10 and C# 13/14 notes, ASP.NET Core, EF Core, Angular 17+, React 18, Azure, Azure OpenAI, Jenkins and Terraform.
+> 27 topics. Built on .NET 10 (LTS) and C# 14, with .NET 11 / C# 15 notes, ASP.NET Core, EF Core, Angular 17+, React 18, Azure, Azure OpenAI, Jenkins and Terraform.
 
 ```mermaid
 flowchart LR
     UI["Angular / React<br/>front ends"] --> APIM["Azure API Management<br/>(JWT, mTLS, rate limits)"]
-    APIM --> API["ASP.NET Core APIs<br/>(.NET 8, clean architecture)"]
+    APIM --> API["ASP.NET Core APIs<br/>(.NET 10, clean architecture)"]
     API --> AKS["AKS / OpenShift<br/>containers"]
     API --> SB["Service Bus<br/>(async workflows)"]
     API --> DB[("SQL Server / DB2")]
@@ -24,7 +24,7 @@ flowchart LR
 | 02 | [C# language](02-csharp-language) | Records, pattern matching, LINQ, async/await, Span&lt;T&gt; (runnable demo) |
 | 03 | [REST API](03-rest-api) | ASP.NET Core minimal API: validation, ProblemDetails, rate limiting, output caching, health checks |
 | 04 | [WCF modernization](04-wcf-modernization) | WCF contract, and the same service as a modern REST API; migration path |
-| 05 | [Windows service](05-windows-service) | .NET 8 Worker Service running as a Windows service |
+| 05 | [Windows service](05-windows-service) | .NET 10 Worker Service running as a Windows service |
 | 06 | [SQL Server & DB2](06-sql-server-db2) | Indexing, window functions, SQL Server → DB2 migration cheat sheet |
 | 07 | [Design patterns](07-design-patterns) | Strategy, Decorator, Mediator, Outbox, Retry (runnable demo) |
 | 08 | [Clean architecture](08-clean-architecture) | Domain / Application / Infrastructure / API layers |
@@ -38,7 +38,7 @@ flowchart LR
 | 16 | [Azure OpenAI & RAG](16-azure-openai-rag) | Chat, embeddings, retrieval-augmented generation with Azure AI Search |
 | 17 | [AI agents](17-ai-agents) | Agent loop with tool calling; human-in-the-loop design for banking |
 | 18 | [C# coding interview](18-csharp-coding-interview) | 22 problems (basic → advanced) with tested solutions |
-| 19 | [What's new .NET 8 → 10](19-dotnet-9-10-whats-new) | C# 12/13/14 and .NET 9/10 features, upgrade checklist (runnable on .NET 8 + .NET 10 file) |
+| 19 | [What's new .NET 8 → 11](19-dotnet-9-10-whats-new) | C# 12–15, .NET 9/10/11 (union types, closed hierarchies, ASP.NET Core 11), support status, upgrade checklist |
 | 20 | [EF Core](20-ef-core) | Fluent config, concurrency tokens, no-tracking, N+1, compiled queries, ExecuteUpdate, migrations |
 | 21 | [Functions, Service Bus, Container Apps, Data Factory](21-azure-functions-messaging) | Isolated-worker Functions, dead-lettering, KEDA scale-to-zero, DB2 → Azure SQL pipeline |
 | 22 | [API security: OAuth 2.0, JWT, mTLS](22-api-security-oauth-jwt-mtls) | How JWT validation works (runnable), policies, Entra ID + client certificates |
@@ -52,7 +52,7 @@ flowchart LR
 
 | Skill | Folder(s) |
 |-------|-----------|
-| C#, .NET 8/10, ASP.NET Core Web API | 01, 02, 03, 19 |
+| C#, .NET 10/11, ASP.NET Core Web API | 01, 02, 03, 19 |
 | EF Core, SQL Server, DB2 | 20, 06 |
 | WCF modernization, Windows services | 04, 05 |
 | Angular, React, TypeScript | 09, 10 |
@@ -68,7 +68,7 @@ flowchart LR
 ## Run the .NET samples
 
 ```bash
-# .NET 8 SDK required
+# .NET 10 SDK required
 dotnet run --project 00-banking-domain
 dotnet run --project 01-dotnet-fundamentals
 dotnet run --project 02-csharp-language

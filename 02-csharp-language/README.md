@@ -1,4 +1,4 @@
-# 02 · C# Language (C# 12)
+# 02 · C# Language (C# 12+; see 19 for C# 13–15)
 
 Run it: `dotnet run`
 

@@ -1,12 +1,12 @@
 # 12 · Azure Services for .NET
 
-- [`main.bicep`](main.bicep): App Service (Linux, .NET 8) + Key Vault + Service Bus, with **managed identity + RBAC**, so there are no connection strings or secrets in config.
+- [`main.bicep`](main.bicep): App Service (Linux, .NET 10) + Key Vault + Service Bus, with **managed identity + RBAC**, so there are no connection strings or secrets in config.
   Deploy: `az deployment group create -g <rg> -f main.bicep`
 - [`ManagedIdentity.cs`](ManagedIdentity.cs): `DefaultAzureCredential` with Key Vault config and Service Bus.
 
 ```mermaid
 flowchart LR
-    U["Client"] --> FD["Front Door / APIM"] --> APP["App Service / AKS<br/>.NET 8 API"]
+    U["Client"] --> FD["Front Door / APIM"] --> APP["App Service / AKS<br/>.NET 10 API"]
     APP -- managed identity --> KV["Key Vault"]
     APP -- managed identity --> SB["Service Bus queue"] --> FN["Functions / worker"]
     APP --> SQL[("Azure SQL")]
