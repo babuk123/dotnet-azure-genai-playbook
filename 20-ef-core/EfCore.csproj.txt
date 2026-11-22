@@ -1,0 +1,8 @@
+<!-- Rename to EfCore.csproj to build. Needs NuGet: Microsoft.EntityFrameworkCore.SqlServer 8.x, Microsoft.EntityFrameworkCore.Design 8.x -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11" />
+  </ItemGroup>
+</Project>

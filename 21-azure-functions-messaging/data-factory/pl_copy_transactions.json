@@ -1,0 +1,40 @@
+{
+  "name": "pl_copy_daily_transactions",
+  "properties": {
+    "description": "Incremental copy of yesterday's transactions from on-prem DB2 to Azure SQL staging, then run the load procedure",
+    "parameters": { "runDate": { "type": "string", "defaultValue": "@formatDateTime(adddays(utcnow(), -1), 'yyyy-MM-dd')" } },
+    "activities": [
+      {
+        "name": "CopyFromDb2",
+        "type": "Copy",
+        "policy": { "retry": 3, "retryIntervalInSeconds": 60, "timeout": "02:00:00" },
+        "typeProperties": {
+          "source": {
+            "type": "Db2Source",
+            "query": { "value": "SELECT * FROM TXN WHERE TXN_DATE = '@{pipeline().parameters.runDate}'", "type": "Expression" }
+          },
+          "sink": { "type": "AzureSqlSink", "preCopyScript": "TRUNCATE TABLE stg.Txn" }
+        },
+        "inputs": [ { "referenceName": "ds_db2_txn", "type": "DatasetReference" } ],
+        "outputs": [ { "referenceName": "ds_sql_stg_txn", "type": "DatasetReference" } ]
+      },
+      {
+        "name": "LoadIntoCore",
+        "type": "SqlServerStoredProcedure",
+        "dependsOn": [ { "activity": "CopyFromDb2", "dependencyConditions": [ "Succeeded" ] } ],
+        "typeProperties": { "storedProcedureName": "dbo.usp_LoadTransactions" },
+        "linkedServiceName": { "referenceName": "ls_azure_sql", "type": "LinkedServiceReference" }
+      },
+      {
+        "name": "NotifyOnFailure",
+        "type": "WebActivity",
+        "dependsOn": [ { "activity": "CopyFromDb2", "dependencyConditions": [ "Failed" ] } ],
+        "typeProperties": {
+          "url": "https://<logic-app-url>",
+          "method": "POST",
+          "body": { "value": "{\"pipeline\":\"@{pipeline().Pipeline}\",\"runId\":\"@{pipeline().RunId}\"}", "type": "Expression" }
+        }
+      }
+    ]
+  }
+}

@@ -2,7 +2,7 @@
 
 Hands-on, runnable examples of the technologies I use as a **Senior Software Engineer (.NET full stack)**, from C# fundamentals to Azure Kubernetes Service, API Management and AI agents. Each folder pairs **working code** with a **diagram** and a short explanation that goes from basic to advanced.
 
-> Built with .NET 8 (LTS), C# 12, ASP.NET Core minimal APIs, Angular 17+, React 18, Azure and Azure OpenAI.
+> 27 topics. Built with .NET 8 (LTS), with .NET 9/10 and C# 13/14 notes, ASP.NET Core, EF Core, Angular 17+, React 18, Azure, Azure OpenAI, Jenkins and Terraform.
 
 ```mermaid
 flowchart LR
@@ -38,6 +38,32 @@ flowchart LR
 | 16 | [Azure OpenAI & RAG](16-azure-openai-rag) | Chat, embeddings, retrieval-augmented generation with Azure AI Search |
 | 17 | [AI agents](17-ai-agents) | Agent loop with tool calling; human-in-the-loop design for banking |
 | 18 | [C# coding interview](18-csharp-coding-interview) | 22 problems (basic → advanced) with tested solutions |
+| 19 | [What's new .NET 8 → 10](19-dotnet-9-10-whats-new) | C# 12/13/14 and .NET 9/10 features, upgrade checklist (runnable on .NET 8 + .NET 10 file) |
+| 20 | [EF Core](20-ef-core) | Fluent config, concurrency tokens, no-tracking, N+1, compiled queries, ExecuteUpdate, migrations |
+| 21 | [Functions, Service Bus, Container Apps, Data Factory](21-azure-functions-messaging) | Isolated-worker Functions, dead-lettering, KEDA scale-to-zero, DB2 → Azure SQL pipeline |
+| 22 | [API security: OAuth 2.0, JWT, mTLS](22-api-security-oauth-jwt-mtls) | How JWT validation works (runnable), policies, Entra ID + client certificates |
+| 23 | [DDD, CQRS, saga, resilience](23-ddd-cqrs-saga-resilience) | Aggregates, value objects, domain events, read models, saga compensation, circuit breaker (runnable) |
+| 24 | [Jenkins, Terraform, SonarQube](24-jenkins-terraform-sonarqube) | Jenkinsfile with quality gate and scan, Terraform for AKS + ACR |
+| 25 | [Healthcare domain](25-healthcare-domain) | FHIR R4, HL7 v2, LOINC, PHI masking, HIPAA (runnable) |
+| 26 | [GenAI PoCs & GitHub Copilot](26-genai-poc-pdf-security-copilot) | PDF chart/table extraction, AI-assisted vulnerability remediation (runnable), Copilot practices |
+
+
+## Skills → where to find them
+
+| Skill | Folder(s) |
+|-------|-----------|
+| C#, .NET 8/10, ASP.NET Core Web API | 01, 02, 03, 19 |
+| EF Core, SQL Server, DB2 | 20, 06 |
+| WCF modernization, Windows services | 04, 05 |
+| Angular, React, TypeScript | 09, 10 |
+| AKS, Docker, Kubernetes, OpenShift | 11, 13 |
+| API Management, OAuth 2.0 / JWT, mTLS | 14, 22 |
+| Functions, Service Bus, Key Vault, Data Factory, Container Apps | 12, 21 |
+| Azure OpenAI, AI Search (RAG), AI agents | 16, 17, 26 |
+| Microservices, DDD, CQRS/Saga, event-driven, resilience | 07, 08, 23 |
+| Azure DevOps, Jenkins, Terraform, SonarQube | 15, 24 |
+| GitHub Copilot | 26 |
+| Banking and healthcare domains | 00, 25 |
 
 ## Run the .NET samples
 
@@ -52,6 +78,9 @@ dotnet run --project 11-containers-openshift/ContainerApp   # then /runtime and 
 dotnet run --project 08-clean-architecture      # POST /api/loans
 dotnet run --project 16-azure-openai-rag        # offline RAG flow; azure/ has the Azure OpenAI + AI Search version
 dotnet run --project 17-ai-agents               # agent loop with human approval
+dotnet run --project 22-api-security-oauth-jwt-mtls   # see requests.http
+dotnet run --project 23-ddd-cqrs-saga-resilience
+dotnet run --project 25-healthcare-domain
 dotnet run --project 18-csharp-coding-interview   # runs all solutions with self-checks
 ```
 

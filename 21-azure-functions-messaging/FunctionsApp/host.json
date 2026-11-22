@@ -1,0 +1,7 @@
+{
+  "version": "2.0",
+  "extensions": {
+    "serviceBus": { "maxConcurrentCalls": 16, "autoCompleteMessages": true, "maxAutoLockRenewalDuration": "00:05:00" }
+  },
+  "logging": { "applicationInsights": { "samplingSettings": { "isEnabled": true } } }
+}

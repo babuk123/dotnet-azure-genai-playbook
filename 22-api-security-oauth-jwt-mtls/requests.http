@@ -1,0 +1,10 @@
+### 1. Get a token with read scope (demo token endpoint stands in for Entra ID)
+POST http://localhost:5100/demo/token?user=bab&scopes=orders.read&mfa=false
+
+### 2. Call with the token -> 200
+GET http://localhost:5100/api/orders
+Authorization: Bearer {{token}}
+
+### 3. Approve without the Approver role / MFA -> 403
+POST http://localhost:5100/api/orders/ORD-1/approve
+Authorization: Bearer {{token}}

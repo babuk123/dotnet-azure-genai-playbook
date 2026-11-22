@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
+  <!-- net10/ uses C# 13/14 and .NET 9/10 APIs; build it with the .NET 10 SDK (TargetFramework net10.0). -->
+  <ItemGroup><Compile Remove="net10/**" /></ItemGroup>
+</Project>

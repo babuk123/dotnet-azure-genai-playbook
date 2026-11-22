@@ -1,0 +1,55 @@
+// Declarative pipeline: build, test with coverage, SonarQube quality gate, container scan, push, deploy to AKS
+pipeline {
+  agent { label 'linux-docker' }
+  options { timestamps(); timeout(time: 45, unit: 'MINUTES'); disableConcurrentBuilds() }
+  environment {
+    REGISTRY = 'myacr.azurecr.io'
+    IMAGE    = "${REGISTRY}/orders-api:${env.BUILD_NUMBER}"
+  }
+  stages {
+    stage('Build & test') {
+      steps {
+        sh 'dotnet restore'
+        sh 'dotnet build -c Release --no-restore'
+        sh 'dotnet test -c Release --no-build --collect "XPlat Code Coverage" --results-directory TestResults'
+      }
+      post { always { junit allowEmptyResults: true, testResults: 'TestResults/**/*.xml' } }
+    }
+    stage('SonarQube analysis') {
+      steps {
+        withSonarQubeEnv('sonarqube') {
+          sh '''
+            dotnet sonarscanner begin /k:"orders-api" /d:sonar.cs.opencover.reportsPaths="TestResults/**/coverage.opencover.xml"
+            dotnet build -c Release
+            dotnet sonarscanner end
+          '''
+        }
+      }
+    }
+    stage('Quality gate') {
+      steps { timeout(time: 10, unit: 'MINUTES') { waitForQualityGate abortPipeline: true } }
+    }
+    stage('Image build, scan, push') {
+      steps {
+        sh "docker build -f 11-containers-openshift/Dockerfile -t ${IMAGE} ."
+        sh "trivy image --exit-code 1 --severity HIGH,CRITICAL ${IMAGE}"
+        withCredentials([usernamePassword(credentialsId: 'acr-sp', usernameVariable: 'U', passwordVariable: 'P')]) {
+          sh 'echo $P | docker login $REGISTRY -u $U --password-stdin'
+          sh "docker push ${IMAGE}"
+        }
+      }
+    }
+    stage('Deploy to AKS') {
+      when { branch 'main' }
+      input { message 'Deploy to production?' ; submitter 'release-managers' }
+      steps {
+        sh "kubectl set image deployment/orders-api api=${IMAGE} -n orders"
+        sh 'kubectl rollout status deployment/orders-api -n orders --timeout=300s'
+      }
+    }
+  }
+  post {
+    failure { echo 'Build failed: notify the team channel here' }
+    cleanup { cleanWs() }
+  }
+}
