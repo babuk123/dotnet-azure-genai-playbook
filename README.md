@@ -30,7 +30,7 @@ flowchart LR
 | 08 | [Clean architecture](08-clean-architecture) | Domain / Application / Infrastructure / API layers |
 | 09 | [Angular](09-angular) | Standalone components, signals, interceptors, OnPush |
 | 10 | [React](10-react) | Hooks, data fetching with cancellation, error boundaries |
-| 11 | [Containers & OpenShift](11-containers-openshift) | Multi-stage Dockerfile, probes, OpenShift Route, graceful shutdown |
+| 11 | [Containers & OpenShift](11-containers-openshift) | Container basics, .NET images (chiseled), multi-stage builds, config, probes, graceful shutdown, container-aware GC, OpenShift (runnable app) |
 | 12 | [Azure services](12-azure-services) | Choosing compute & messaging, managed identity, Key Vault, Bicep |
 | 13 | [AKS](13-aks) | Deployment, HPA, ingress, workload identity, canary release |
 | 14 | [API Management](14-api-management) | JWT validation, rate limiting, mTLS client certificates, AI gateway policies |
@@ -48,6 +48,7 @@ dotnet run --project 01-dotnet-fundamentals
 dotnet run --project 02-csharp-language
 dotnet run --project 03-rest-api            # then call the endpoints listed in 03-rest-api/README.md
 dotnet run --project 07-design-patterns
+dotnet run --project 11-containers-openshift/ContainerApp   # then /runtime and /health/ready
 dotnet run --project 08-clean-architecture      # POST /api/loans
 dotnet run --project 16-azure-openai-rag        # offline RAG flow; azure/ has the Azure OpenAI + AI Search version
 dotnet run --project 17-ai-agents               # agent loop with human approval
