@@ -1,0 +1,27 @@
+@host = http://localhost:5080
+
+### Create (send twice: same Idempotency-Key returns the same order)
+POST {{host}}/api/v1/orders
+Content-Type: application/json
+Idempotency-Key: 7d1c2c2e-key-001
+
+{ "customerId": "CUST-100", "amount": 250.75 }
+
+### Validation error -> 400 ValidationProblem
+POST {{host}}/api/v1/orders
+Content-Type: application/json
+Idempotency-Key: bad-1
+
+{ "customerId": "X", "amount": 0 }
+
+### List (paged + output cached)
+GET {{host}}/api/v1/orders?page=1&pageSize=10
+
+### Get by id
+GET {{host}}/api/v1/orders/1
+
+### Global error handling -> 500 ProblemDetails
+GET {{host}}/api/v1/boom
+
+### Health
+GET {{host}}/health/ready

@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
+  <!-- azure/ contains the Azure OpenAI tool-calling loop; needs the Azure.AI.OpenAI package. -->
+  <ItemGroup><Compile Remove="azure/**" /></ItemGroup>
+</Project>

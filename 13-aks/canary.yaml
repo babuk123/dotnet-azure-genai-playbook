@@ -1,0 +1,16 @@
+# Simple canary: stable and canary Deployments behind one Service; replicas set the traffic split (~10%)
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: orders-api-canary }
+spec:
+  replicas: 1             # with 9 stable replicas ≈ 10% of traffic
+  selector: { matchLabels: { app: orders-api, track: canary } }
+  template:
+    metadata: { labels: { app: orders-api, track: canary } }
+    spec:
+      containers:
+        - name: api
+          image: myacr.azurecr.io/orders-api:1.1.0
+          ports: [{ containerPort: 8080 }]
+# The Service selects only `app: orders-api`, so it load-balances across stable + canary pods.
+# For exact percentages use a service mesh (Istio on AKS) or Argo Rollouts / Flagger.

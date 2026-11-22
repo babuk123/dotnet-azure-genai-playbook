@@ -1,0 +1,35 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata: { name: orders-api }
+spec:
+  scaleTargetRef: { apiVersion: apps/v1, kind: Deployment, name: orders-api }
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource: { name: cpu, target: { type: Utilization, averageUtilization: 70 } }
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata: { name: orders-api }
+spec:
+  minAvailable: 2
+  selector: { matchLabels: { app: orders-api } }
+---
+# Ingress with TLS; one cluster hosting several client domains
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: orders-api
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  tls:
+    - hosts: [api.client-a.example.com, api.client-b.example.com]
+      secretName: orders-api-tls
+  rules:
+    - host: api.client-a.example.com
+      http: { paths: [{ path: /, pathType: Prefix, backend: { service: { name: orders-api, port: { number: 80 } } } }] }
+    - host: api.client-b.example.com
+      http: { paths: [{ path: /, pathType: Prefix, backend: { service: { name: orders-api, port: { number: 80 } } } }] }

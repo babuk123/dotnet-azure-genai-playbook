@@ -1,0 +1,17 @@
+<!-- APIM as an AI gateway in front of Azure OpenAI: managed identity, token limits, usage metrics -->
+<policies>
+  <inbound>
+    <base />
+    <authentication-managed-identity resource="https://cognitiveservices.azure.com" />
+    <azure-openai-token-limit counter-key="@(context.Subscription.Id)"
+        tokens-per-minute="20000" estimate-prompt-tokens="true" remaining-tokens-header-name="x-remaining-tokens" />
+    <azure-openai-emit-token-metric namespace="openai">
+      <dimension name="Subscription ID" />
+      <dimension name="API ID" />
+    </azure-openai-emit-token-metric>
+    <set-backend-service backend-id="openai-backend-pool" />   <!-- load-balance across regions/PTU -->
+  </inbound>
+  <backend><base /></backend>
+  <outbound><base /></outbound>
+  <on-error><base /></on-error>
+</policies>

@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
+  <!-- azure/ holds the real Azure OpenAI + AI Search adapters. They need NuGet packages
+       (Azure.AI.OpenAI 2.x, Azure.Search.Documents 11.6+, Azure.Identity); add them and remove this line to use them. -->
+  <ItemGroup><Compile Remove="azure/**" /></ItemGroup>
+</Project>

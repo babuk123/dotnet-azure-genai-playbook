@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <!-- Single project for a quick demo; in a real solution each folder under src/ is its own project:
+       Api -> Application, Infrastructure;  Infrastructure -> Application;  Application -> Domain -->
+</Project>

@@ -1,0 +1,47 @@
+<!-- APIM inbound policy for a banking API: JWT validation, per-client rate limit, client certificate (mTLS) check -->
+<policies>
+  <inbound>
+    <base />
+    <!-- 1. Only valid Entra ID tokens for this API -->
+    <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-scheme="Bearer">
+      <openid-config url="https://login.microsoftonline.com/{{tenant-id}}/v2.0/.well-known/openid-configuration" />
+      <audiences><audience>api://orders-api</audience></audiences>
+      <required-claims>
+        <claim name="roles" match="any"><value>Orders.Read</value><value>Orders.Write</value></claim>
+      </required-claims>
+    </validate-jwt>
+
+    <!-- 2. Rate limit per client app (azp claim), not per gateway -->
+    <rate-limit-by-key calls="100" renewal-period="60"
+        counter-key="@(context.Request.Headers.GetValueOrDefault(&quot;Authorization&quot;,&quot;&quot;).AsJwt()?.Claims.GetValueOrDefault(&quot;azp&quot;, &quot;anonymous&quot;))" />
+
+    <!-- 3. mTLS: require a trusted client certificate -->
+    <choose>
+      <when condition="@(context.Request.Certificate == null || !context.Request.Certificate.Verify() || !context.Deployment.Certificates.Any(c => c.Value.Thumbprint == context.Request.Certificate.Thumbprint))">
+        <return-response><set-status code="403" reason="Invalid client certificate" /></return-response>
+      </when>
+    </choose>
+
+    <!-- 4. Correlation id for end-to-end tracing -->
+    <set-header name="X-Correlation-Id" exists-action="skip">
+      <value>@(context.RequestId.ToString())</value>
+    </set-header>
+
+    <!-- 5. Backend: AKS ingress (internal), authenticated with APIM's own client certificate -->
+    <set-backend-service base-url="https://orders.internal.example.com" />
+    <authentication-certificate certificate-id="apim-to-aks-client-cert" />
+  </inbound>
+  <backend><forward-request timeout="30" /></backend>
+  <outbound>
+    <base />
+    <set-header name="X-Powered-By" exists-action="delete" />
+  </outbound>
+  <on-error>
+    <base />
+    <return-response>
+      <set-status code="@(context.Response.StatusCode)" />
+      <set-header name="Content-Type" exists-action="override"><value>application/problem+json</value></set-header>
+      <set-body>@("{\"title\":\"Request failed\",\"traceId\":\"" + context.RequestId + "\"}")</set-body>
+    </return-response>
+  </on-error>
+</policies>

@@ -1,0 +1,10 @@
+-- DB2 (z/OS / LUW) equivalents of the SQL Server patterns
+SELECT * FROM ACCOUNT FETCH FIRST 10 ROWS ONLY;                 -- SQL Server: TOP 10
+SELECT CURRENT TIMESTAMP FROM SYSIBM.SYSDUMMY1;                 -- SQL Server: SELECT SYSUTCDATETIME()
+SELECT COALESCE(CUSTOMER_NAME, 'N/A') FROM ACCOUNT;             -- same in both (ISNULL is SQL Server only)
+SELECT ACCOUNT_NO || '-' || CUSTOMER_NAME FROM ACCOUNT;         -- SQL Server: + or CONCAT()
+SELECT * FROM TXN WHERE TXN_DATE >= CURRENT DATE - 30 DAYS;     -- SQL Server: DATEADD(DAY,-30,GETDATE())
+-- Identity column
+CREATE TABLE TXN (TXN_ID BIGINT GENERATED ALWAYS AS IDENTITY, AMOUNT DECIMAL(18,2) NOT NULL);
+-- Isolation: WITH UR (uncommitted read) ~ SQL Server NOLOCK — avoid for financial totals
+SELECT COUNT(*) FROM TXN WITH UR;

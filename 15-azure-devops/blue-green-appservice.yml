@@ -1,0 +1,38 @@
+# Blue-green on App Service: deploy to the "staging" slot, smoke test, then swap (instant rollback = swap back)
+stages:
+  - stage: DeployGreen
+    jobs:
+      - deployment: green
+        environment: prod-appservice
+        pool: { vmImage: ubuntu-latest }
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebApp@1
+                  inputs:
+                    azureSubscription: azure-connection
+                    appName: orders-prod
+                    deployToSlotOrASE: true
+                    resourceGroupName: rg-orders
+                    slotName: staging
+                    package: $(Pipeline.Workspace)/drop/*.zip
+                - script: curl --fail https://orders-prod-staging.azurewebsites.net/health/ready
+                  displayName: Smoke test green
+  - stage: Swap
+    dependsOn: DeployGreen
+    jobs:
+      - deployment: swap
+        environment: prod-appservice-swap   # manual approval check
+        pool: { vmImage: ubuntu-latest }
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureAppServiceManage@0
+                  inputs:
+                    azureSubscription: azure-connection
+                    Action: Swap Slots
+                    WebAppName: orders-prod
+                    ResourceGroupName: rg-orders
+                    SourceSlot: staging
